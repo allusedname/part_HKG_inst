@@ -1,0 +1,29 @@
+extends: default.yaml
+paths:
+  save_dir: ./runs/debug
+data:
+  img_size: 128
+  num_workers: 0
+  max_train_samples: 32
+  max_val_samples: 16
+model:
+  stage1:
+    backbone_name: tiny
+    use_dino: false
+    use_clip_text: false
+    model_dim: 64
+    fuse_dim: 64
+    token_dim: 64
+    use_cost_aggregation: true
+    cost_embed_dim: 8
+    cost_agg_heads: 1
+    cost_agg_blocks: 1
+    spatial_attention_max_tokens: 128
+  stage2:
+    hidden_dim: 64
+training:
+  stage1_epochs: 1
+  stage2_epochs: 1
+  batch_size_stage1: 2
+  batch_size_stage2: 2
+  use_amp: false

@@ -1,0 +1,17 @@
+# Optional notebook-compatible ablation mode. Not the default proposal path.
+extends: default.yaml
+model:
+  stage2:
+    main_classifier: legacy_v51_fused
+    use_pmi_in_main: false
+    use_adaptive_fusion: true
+    enable_legacy_v51_fusion: true
+    enable_relation_routing: true
+    fusion_mode: adaptive
+    fusion_output_space: log_opinion_pool
+    fusion_expert_norm: zscore
+    fusion_prob_tau: 1.0
+    fusion_final_tau: 1.0
+    relation_context_scale: 1.0
+    relation_score_scale: 0.25
+    relation_template_llr_weight: 0.15

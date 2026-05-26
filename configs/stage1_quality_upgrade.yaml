@@ -1,0 +1,68 @@
+extends: default.yaml
+run_name: stage1_quality_upgrade
+paths:
+  save_dir: runs/stage1_quality_upgrade
+model:
+  stage1:
+    # ResNet is the primary encoder. DINO, when enabled, remains a frozen
+    # structural guidance side branch rather than the image backbone.
+    backbone_name: resnet18
+    use_dino: true
+    freeze_dino: true
+
+    # Small-part fix: refine part/support logits on the higher-resolution
+    # ResNet skip map before final upsampling. This is backward-compatible with
+    # old checkpoints if they are loaded with strict=False for warm-start.
+    use_highres_refine: true
+    highres_refine_dim: 64
+
+    # Milder pooling avoids over-peaky masks; explicit presence loss handles calibration.
+    topk_presence_k: 128
+    presence_threshold: 0.25
+    token_mask_temperature: 1.0
+    token_mask_alpha: 1.0
+
+    # Area-adaptive small-part loss boost. Only GT-present small parts are
+    # boosted; absent parts are not made harder.
+    small_part_area_tau: 0.015
+    small_part_weight_max: 6.0
+    small_part_weight_power: 0.5
+  hkg:
+    use_predicted_stage1_evidence: true
+training:
+  stage1_epochs: 24
+  batch_size_stage1: 8
+  lr_stage1: 5.0e-5
+  weight_decay: 1.0e-4
+loss:
+  stage1:
+    support: 1.2
+    functional: 1.0
+    role: 1.2
+    invalid_role_negative: 0.08
+    invalid_role_topk: 0.15
+    functional_role_consistency: 0.25
+    object_part_composition: 0.40
+    dino_affinity: 0.03
+    area_mass: 0.10
+    present_coverage: 0.25
+
+    # Quality upgrade is now part of scripts/train_stage1.py, not a separate
+    # notebook training loop. CLI can also enable/override these values with
+    # --quality-loss and coefficient flags.
+    quality_enable: true
+    quality_presence_bce: 0.40
+    valid_absent_topmean_fp: 0.08
+    valid_absent_mean_fp: 0.02
+    invalid_part_topmean: 0.35
+    invalid_part_mean: 0.08
+    gt_support_leak: 0.35
+    pred_support_containment: 0.25
+    boundary: 0.08
+    focal_functional: 0.12
+    tversky_functional: 0.12
+    quality_topq: 0.02
+analysis:
+  output_inline: true
+  presence_tau: 0.25
+  mask_bin_thr: 0.40

@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "partcat-hkg"
+version = "0.1.0"
+description = "Visibility-aware hierarchical part-role parse graphs for compositional recognition"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{name = "PartCAT-HKG project"}]
+dependencies = [
+  "numpy>=1.23",
+  "pandas>=1.5",
+  "Pillow>=9.0",
+  "PyYAML>=6.0",
+  "matplotlib>=3.6",
+  "torch>=2.0",
+  "torchvision>=0.15",
+]
+
+[project.optional-dependencies]
+vision = ["timm>=0.9", "open_clip_torch>=2.20", "pycocotools>=2.0"]
+dev = ["pytest>=7.0", "ruff>=0.4"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100

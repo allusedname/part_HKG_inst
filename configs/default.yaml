@@ -1,0 +1,162 @@
+seed: 123
+run_name: default
+paths:
+  partimagenet_root: ../full_hyco/PartImageNet
+  unseen_root: ./auto_wnid_split_output/unseen_target_only
+  save_dir: ./runs/default
+  train_annotations: annotations/train/train.json
+  val_annotations: annotations/val/val.json
+  train_image_root: images/train
+  val_image_root: images/val
+
+data:
+  img_size: 320
+  num_workers: 8
+  persistent_workers: true
+  prefetch_factor: 4
+  max_train_samples: 0
+  max_val_samples: 0
+  use_stage2_image_only_loader: true
+
+model:
+  stage1:
+    backbone_name: resnet18
+    model_dim: 192
+    fuse_dim: 128
+    token_dim: 128
+    use_imagenet_backbone_pretrain: false
+    freeze_backbone: false
+    use_dino: true
+    dino_model_name: vit_small_patch16_224.dino
+    dino_input_size: 224
+    dino_weights: ""
+    freeze_dino: true
+    use_clip_text: true
+    clip_model_name: ViT-B-16
+    clip_pretrain_tag: laion2b_s34b_b88k
+    use_cost_aggregation: true
+    cost_embed_dim: 16
+    cost_agg_heads: 4
+    cost_agg_blocks: 1
+    spatial_attention_max_tokens: 256
+    topk_presence_k: 64
+    presence_topq: 0.0
+    token_mask_temperature: 1.0
+    token_mask_alpha: 1.0
+  hkg:
+    max_images_per_class: 0
+    role_edge_min_count: 3
+    degree_cap: 4
+    edge_select_topm: 2
+    edge_min_strength: 0.03
+    edge_min_information_gain: 0.01
+    relation_mask_size: 80
+    relation_var_floor: 1.0e-3
+    store_pmi_diagnostic: true
+    num_templates_per_class: 3
+    template_kmeans_iters: 12
+    min_template_support: 2
+    template_presence_smoothing: 1.0
+    template_prior_smoothing: 1.0
+    template_required_tau: 0.45
+    template_edge_min_support: 0.12
+    template_edge_degree_cap: 5
+    template_edge_max_edges: 12
+    template_edge_shrink_kappa: 8.0
+    anchor_edge_min_support: 0.18
+    anchor_edge_required_prior: 0.25
+    anchor_edge_max_per_template: 6
+    motif_min_support: 0.30
+  stage2:
+    hidden_dim: 256
+    main_classifier: parse_graph
+    use_pmi_in_main: false
+    use_adaptive_fusion: false
+    enable_legacy_v51_fusion: false
+    enable_relation_routing: false
+    role_presence_mode: role
+    partial_parse_eps: 1.0e-4
+    visibility_presence_tau: 0.15
+    visibility_quality_tau: 0.25
+    lambda_completion_init: 0.35
+    lambda_edge_init: 0.20
+    lambda_contradiction_init: 0.10
+    edge_score_mode: template_fit
+    edge_positive_only: true
+    fusion_mode: adaptive
+    fusion_output_space: log_opinion_pool
+    fusion_expert_norm: zscore
+    fusion_prob_tau: 1.0
+    fusion_final_tau: 1.0
+    relation_context_scale: 1.0
+    relation_score_scale: 0.25
+    relation_template_llr_weight: 0.15
+    hkg_score_clip: 30.0
+    hkg_use_logsumexp_templates: true
+    hkg_template_tau: 1.0
+    hkg_node_presence_scale: 0.50
+    hkg_node_pmi_scale: 0.35
+    hkg_node_app_scale: 1.00
+    hkg_absence_penalty: 0.35
+    hkg_conflict_penalty: 0.35
+    hkg_spurious_template_penalty: 0.25
+    hkg_spurious_template_tau: 0.08
+    hkg_edge_scale: 0.55
+    hkg_motif_scale: 0.12
+    hkg_edge_positive_only: false
+    hkg_center_relation_scores: true
+    hkg_calibrated_fusion: true
+    hkg_fusion_lambda_init: 0.20
+    hkg_use_classwise_fusion: true
+    hkg_normalize_scores: true
+    hkg_presence_floor: 1.0e-4
+
+training:
+  stage1_epochs: 18
+  stage2_epochs: 16
+  batch_size_stage1: 12
+  batch_size_stage2: 8
+  lr_stage1: 1.0e-4
+  lr_stage2: 3.0e-4
+  weight_decay: 1.0e-4
+  use_amp: true
+  class_balanced_stage2: true
+  curriculum:
+    - name: node_warmup
+      epochs: 4
+      enable_completion: false
+      enable_edges: false
+    - name: completion_warmup
+      epochs: 4
+      enable_completion: true
+      enable_edges: false
+    - name: edge_warmup
+      epochs: 8
+      enable_completion: true
+      enable_edges: true
+
+loss:
+  stage1:
+    support: 1.0
+    functional: 1.0
+    role: 1.4
+    invalid_role_negative: 0.05
+    invalid_role_topk: 0.10
+    functional_role_consistency: 0.25
+    object_part_composition: 0.35
+    dino_affinity: 0.02
+    area_mass: 0.10
+    present_coverage: 0.20
+  stage2:
+    parse_ce: 1.0
+    visible_aux: 0.20
+    completion_aux: 0.10
+    edge_aux: 0.05
+    base_aux: 1.0
+    hkg_aux: 0.25
+    motif_aux: 0.02
+
+analysis:
+  vis_num_samples: 3
+  mask_bin_thr: 0.40
+  output_inline: false

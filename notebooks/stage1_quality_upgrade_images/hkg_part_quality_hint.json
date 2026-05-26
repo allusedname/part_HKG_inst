@@ -1,0 +1,108 @@
+{
+  "per_part_quality_hint": [
+    {
+      "part": "body",
+      "gt_present_rate": 1.0,
+      "pred_presence_mean": 0.9949216395616531,
+      "pred_area_mean": 0.2792285817364852,
+      "pred_topmean_mean": 0.988137811422348,
+      "prototype_quality_hint": 1.0
+    },
+    {
+      "part": "engine",
+      "gt_present_rate": 0.0,
+      "pred_presence_mean": 0.00516937289952087,
+      "pred_area_mean": 2.9715203121819893e-05,
+      "pred_topmean_mean": 0.0010370981264410755,
+      "prototype_quality_hint": 0.0005185490632205377
+    },
+    {
+      "part": "fin",
+      "gt_present_rate": 0.0,
+      "pred_presence_mean": 0.0007836346073114934,
+      "pred_area_mean": 9.88273332798902e-06,
+      "pred_topmean_mean": 0.00014224141280768285,
+      "prototype_quality_hint": 7.112070640384142e-05
+    },
+    {
+      "part": "foot",
+      "gt_present_rate": 0.0,
+      "pred_presence_mean": 0.0007259437334141694,
+      "pred_area_mean": 1.64215587877455e-05,
+      "pred_topmean_mean": 0.00023812216265165867,
+      "prototype_quality_hint": 0.00011906108132582934
+    },
+    {
+      "part": "hand",
+      "gt_present_rate": 0.0,
+      "pred_presence_mean": 0.0010407130491027299,
+      "pred_area_mean": 6.0562361947328704e-05,
+      "pred_topmean_mean": 0.0004894387505676908,
+      "prototype_quality_hint": 0.0002447193752838454
+    },
+    {
+      "part": "head",
+      "gt_present_rate": 0.0,
+      "pred_presence_mean": 0.006032675186967633,
+      "pred_area_mean": 2.8292639854043955e-05,
+      "pred_topmean_mean": 0.00103980497866966,
+      "prototype_quality_hint": 0.00051990248933483
+    },
+    {
+      "part": "mirror",
+      "gt_present_rate": 0.71875,
+      "pred_presence_mean": 0.4534697172542413,
+      "pred_area_mean": 0.0013220773131858248,
+      "pred_topmean_mean": 0.06501318304799497,
+      "prototype_quality_hint": 0.07923481683974387
+    },
+    {
+      "part": "mouth",
+      "gt_present_rate": 0.0,
+      "pred_presence_mean": 0.00015370146744923355,
+      "pred_area_mean": 4.966682467966166e-06,
+      "pred_topmean_mean": 4.652430137260429e-05,
+      "prototype_quality_hint": 2.3262150686302146e-05
+    },
+    {
+      "part": "sail",
+      "gt_present_rate": 0.0,
+      "pred_presence_mean": 0.0012406096890723954,
+      "pred_area_mean": 4.03812524988704e-05,
+      "pred_topmean_mean": 0.00046253479619432863,
+      "prototype_quality_hint": 0.00023126739809716432
+    },
+    {
+      "part": "seat",
+      "gt_present_rate": 0.0,
+      "pred_presence_mean": 0.0011115798445947196,
+      "pred_area_mean": 5.397937722288286e-06,
+      "pred_topmean_mean": 0.00011161424784707681,
+      "prototype_quality_hint": 5.5807123923538406e-05
+    },
+    {
+      "part": "tail",
+      "gt_present_rate": 0.0,
+      "pred_presence_mean": 0.0011473286455535951,
+      "pred_area_mean": 9.771044612231586e-06,
+      "pred_topmean_mean": 0.00021088150424475316,
+      "prototype_quality_hint": 0.00010544075212237658
+    },
+    {
+      "part": "wheel",
+      "gt_present_rate": 0.9479166666666666,
+      "pred_presence_mean": 0.9542459348837534,
+      "pred_area_mean": 0.037897704945256315,
+      "pred_topmean_mean": 0.7772898326317469,
+      "prototype_quality_hint": 1.0
+    },
+    {
+      "part": "wing",
+      "gt_present_rate": 0.0,
+      "pred_presence_mean": 0.0010771277932993446,
+      "pred_area_mean": 2.270986025602421e-05,
+      "pred_topmean_mean": 0.0003172820749265763,
+      "prototype_quality_hint": 0.00015864103746328814
+    }
+  ]
+}
